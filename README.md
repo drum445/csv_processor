@@ -1,6 +1,6 @@
 # csv_processor
 
-Allows for manipulation of CSV files based on header value
+Allows manipulation of CSV files based on header value
 
 ## Installation
 
@@ -44,15 +44,9 @@ csv.write_file
 
 ```
 
-TODO: Write usage instructions here
-
-## Development
-
-TODO: Write development instructions here
-
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/csv_processor/fork )
+1. Fork it ( https://github.com/drum445/csv_processor/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
