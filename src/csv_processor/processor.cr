@@ -10,8 +10,6 @@ class CSVProcessor::CSVP
   end
 
   def load_headers
-    puts "Mapping headers..."
-
     # load the headers into our hash, it will look like:
     # ["name" => 1] name being the header, 1 being the index
     file = File.read(@file_name)
@@ -28,8 +26,6 @@ class CSVProcessor::CSVP
   end
 
   def read_file
-    puts "Loading file..."
-
     file = File.read(@file_name)
     csv_reader = CSV::Parser.new(file)
 
@@ -46,8 +42,6 @@ class CSVProcessor::CSVP
   end
 
   def write_file
-    puts "Writing to file..."
-
     result = CSV.build do |csv|
       # build the headers first, which are the keys of the headers hash
       csv.row @headers.keys
