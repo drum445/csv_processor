@@ -8,7 +8,7 @@ module CSVProcessor
     def initialize(@file_name : String)
       @headers = Hash(String, Int32).new
       @records = Array(Array(String)).new
-      self.load_headers
+      load_headers
     end
 
     def load_headers
