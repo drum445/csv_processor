@@ -46,15 +46,15 @@ csv.write_file
 
 ```
 
-##### Renaming a header
+##### Renaming a column header
 ```crystal
-csv.rename_header("age", "years")
+csv.rename_column("age", "years")
 
 ```
 
-##### Adding a header then setting the value
+##### Adding a column then setting the value
 ```crystal
-csv.add_header("job")
+csv.add_column("job")
 
 h = csv.headers
 csv.records.each do |row|
@@ -63,9 +63,9 @@ end
 
 ```
 
-##### Deleting a header
+##### Deleting a column
 ```crystal
-csv.delete_header("age")
+csv.delete_column("age")
 
 ```
 

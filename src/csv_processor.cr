@@ -27,7 +27,7 @@ module CSVProcessor
       end
     end
 
-    def rename_header(old : String, header : String)
+    def rename_column(old : String, header : String)
       # find the value of our old header then delete it
       current_index = @headers[old]
       @headers.delete(old)
@@ -37,7 +37,7 @@ module CSVProcessor
       @headers = @headers.to_a.sort_by { |key, value| value }.to_h
     end
 
-    def add_header(header : String)
+    def add_column(header : String)
       # add the header to our headers hash
       @headers[header] = @headers.size
 
@@ -47,7 +47,7 @@ module CSVProcessor
       end
     end
 
-    def delete_header(header : String)
+    def delete_column(header : String)
       # find the index of our target header
       header_index = @headers[header]
 
