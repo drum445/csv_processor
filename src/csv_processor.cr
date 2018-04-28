@@ -6,8 +6,9 @@ module CSVProcessor
     getter records, headers
 
     def initialize(@file_name : String)
-      @headers = Hash(String, Int32).new
-      @records = Array(Array(String)).new
+      @headers = Array(String).new
+      # @records = Array(Array(String)).new
+      @records = Array(Hash(String, String)).new
       load_headers
     end
 
@@ -21,53 +22,42 @@ module CSVProcessor
 
       # need to check for nil
       unless header_row.nil?
-        header_row.each_with_index do |header, index|
-          @headers[header] = index
-        end
+        @headers = header_row
       end
     end
 
     def rename_column(old : String, header : String)
-      # find the value of our old header then delete it
-      current_index = @headers[old]
+      # remove the old header from our headers array
+      # then add our new header
       @headers.delete(old)
+      @headers.push(header)
 
-      # create our new header with the value
-      @headers[header] = current_index
-
-      # re-order the headers
-      @headers = @headers.to_a.sort_by { |key, value| value }.to_h
+      # for each row add a new header with the old header's value
+      # then delete the old kvp
+      @records.each do |row|
+        row[header] = row[old]
+        row.delete(old)
+      end
     end
 
     def add_column(header : String)
-      # add the header to our headers hash
-      @headers[header] = @headers.size
+      # add the header to our headers array
+      @headers.push(header)
 
-      # add an empty string to each row
+      # add an empty string to each row for the new header
       @records.each do |row|
-        row.push("")
+        row[header] = ""
       end
     end
 
     def delete_column(header : String)
-      # find the index of our target header
-      header_index = @headers[header]
-
       # remove that index from each row
       @records.each do |row|
-        row.delete_at(header_index)
+        row.delete(header)
       end
 
       # remove the header
       @headers.delete(header)
-
-      # re-order the headers' value whose value was higher
-      # than our deleted header
-      @headers.each do |key, value|
-        if value > header_index
-          @headers[key] -= 1
-        end
-      end
     end
 
     def read_file
@@ -77,23 +67,25 @@ module CSVProcessor
       # skip header row as we have already loaded that in load_headers
       csv_reader.next_row
 
-      # loop through file
+      # for each row we want a hash that looks like {header => value}
+      # once created push it to the records array
       csv_reader.each_row do |row|
-        # as we have a headers hash we can retrieve the column we want
-        # by using the map of header name/index, example row[@headers["name"]]
-        # will return the value of the name column
-        @records.push(row)
+        row_hash = Hash(String, String).new
+        row.each_with_index do |value, index|
+          row_hash[@headers[index]] = value
+        end
+        @records.push(row_hash)
       end
     end
 
     def write_file(new_file_name : String)
       result = CSV.build do |csv|
-        # build the headers first, which are the keys of the headers hash
-        csv.row @headers.keys
+        # build the headers first, which is just our headers array
+        csv.row @headers
 
         # loop through the records and add each one to the builder
         @records.each do |row|
-          csv.row row
+          csv.row row.values
         end
       end
 

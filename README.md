@@ -28,51 +28,41 @@ require "csv_processor"
 
 csv = CSVProcessor::CSVP.new("test.csv")
 csv.read_file
-
 ```
 
 ##### Changing a value
 ```crystal
-# assign to h just for shorthand
-h = csv.headers
-
 # loop through our records and change the age
 # of the record belonging to ed
 csv.records.each do |row|
-  if row[h["name"]] == "ed"
-    row[h["age"]] = "35"
+  if row["name"] == "ed"
+    row["age"] = "35"
   end
 end
-
 ```
 
-##### Renaming a column header
+##### Renaming a column header (does not preserve order)
 ```crystal
 csv.rename_column("age", "years")
-
 ```
 
 ##### Adding a column then setting the value
 ```crystal
 csv.add_column("job")
 
-h = csv.headers
 csv.records.each do |row|
-  row[h["job"]] = "developer"
+  row["job"] = "developer"
 end
-
 ```
 
 ##### Deleting a column
 ```crystal
 csv.delete_column("age")
-
 ```
 
 ##### Write to file
 ```crystal
 csv.write_file("processed_file.csv")
-
 ```
 
 ## Contributing
