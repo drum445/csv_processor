@@ -22,7 +22,7 @@ bert,42,m
 dave,55,m
 ```
 
-### Changing a value based on criteria
+##### Changing a value based on criteria
 ```crystal
 require "csv_processor"
 
@@ -45,13 +45,13 @@ csv.write_file
 
 ```
 
-### Renaming a header
+##### Renaming a header
 ```crystal
 csv.rename_header("age", "years")
 
 ```
 
-### Adding a header then setting the value
+##### Adding a header then setting the value
 ```crystal
 csv.add_header("job")
 
