@@ -19,11 +19,31 @@ module CSVProcessor
 
       header_row = csv_reader.next_row
 
-      # need to check for nil otherwise compile error
+      # need to check for nil
       unless header_row.nil?
         header_row.each_with_index do |header, index|
           @headers[header] = index
         end
+      end
+    end
+
+    def rename_header(old : String, header : String)
+      # find the value of our old header then delete it
+      current_index = @headers[old]
+      @headers.delete(old)
+      # create our new header with the value
+      @headers[header] = current_index
+      # re-order the hash
+      @headers = @headers.to_a.sort_by { |key, value| value }.to_h
+    end
+
+    def add_header(header : String)
+      # add the header to our headers hash
+      @headers[header] = @headers.size
+
+      # add an empty string to each row
+      @records.each do |row|
+        row.push("")
       end
     end
 

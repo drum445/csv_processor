@@ -22,6 +22,7 @@ bert,42,m
 dave,55,m
 ```
 
+### Changing a value based on criteria
 ```crystal
 require "csv_processor"
 
@@ -41,6 +42,23 @@ end
 
 # finally write our new records to file
 csv.write_file
+
+```
+
+### Renaming a header
+```crystal
+csv.rename_header("age", "years")
+
+```
+
+### Adding a header then setting the value
+```crystal
+csv.add_header("job")
+
+h = csv.headers
+csv.records.each do |row|
+  row[h["job"]] = "developer"
+end
 
 ```
 
