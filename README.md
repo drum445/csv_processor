@@ -1,7 +1,6 @@
 # csv_processor
 
-Allows manipulation of CSV files based on the columns header
-Header == Column Name
+Allows manipulation of CSV files based on the columns header\nHeader == Column Name
 
 ## Installation
 
@@ -23,13 +22,17 @@ bert,42,m
 dave,55,m
 ```
 
-##### Changing a value based on criteria
+##### Setup
 ```crystal
 require "csv_processor"
 
 csv = CSVProcessor::CSVP.new("test.csv")
 csv.read_file
 
+```
+
+##### Changing a value
+```crystal
 # assign to h just for shorthand
 h = csv.headers
 
@@ -40,9 +43,6 @@ csv.records.each do |row|
     row[h["age"]] = "35"
   end
 end
-
-# finally write our new records to file
-csv.write_file
 
 ```
 
@@ -66,6 +66,12 @@ end
 ##### Deleting a column
 ```crystal
 csv.delete_column("age")
+
+```
+
+##### Write to file
+```crystal
+csv.write_file("processed_file.csv")
 
 ```
 

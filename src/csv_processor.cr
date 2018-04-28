@@ -3,7 +3,7 @@ require "csv"
 
 module CSVProcessor
   class CSVP
-    getter :records, :headers
+    getter records, headers
 
     def initialize(@file_name : String)
       @headers = Hash(String, Int32).new
@@ -31,9 +31,11 @@ module CSVProcessor
       # find the value of our old header then delete it
       current_index = @headers[old]
       @headers.delete(old)
+
       # create our new header with the value
       @headers[header] = current_index
-      # re-order the hash
+
+      # re-order the headers
       @headers = @headers.to_a.sort_by { |key, value| value }.to_h
     end
 
@@ -56,8 +58,16 @@ module CSVProcessor
         row.delete_at(header_index)
       end
 
-      # finally remove the header
+      # remove the header
       @headers.delete(header)
+
+      # re-order the headers' value whose value was higher
+      # than our deleted header
+      @headers.each do |key, value|
+        if value > header_index
+          @headers[key] -= 1
+        end
+      end
     end
 
     def read_file
@@ -76,7 +86,7 @@ module CSVProcessor
       end
     end
 
-    def write_file
+    def write_file(new_file_name : String)
       result = CSV.build do |csv|
         # build the headers first, which are the keys of the headers hash
         csv.row @headers.keys
@@ -88,7 +98,7 @@ module CSVProcessor
       end
 
       # finally write the built csv object to a new file
-      File.write("new_#{@file_name}", result)
+      File.write(new_file_name, result)
     end
   end
 end
