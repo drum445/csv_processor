@@ -1,6 +1,6 @@
 # csv_processor
 
-Allows manipulation of CSV files based on the columns header\nHeader == Column Name
+Allows manipulation of CSV files based on the columns header<br>Header == Column Name
 
 ## Installation
 
