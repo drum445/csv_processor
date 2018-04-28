@@ -47,6 +47,19 @@ module CSVProcessor
       end
     end
 
+    def delete_header(header : String)
+      # find the index of our target header
+      header_index = @headers[header]
+
+      # remove that index from each row
+      @records.each do |row|
+        row.delete_at(header_index)
+      end
+
+      # finally remove the header
+      @headers.delete(header)
+    end
+
     def read_file
       file = File.read(@file_name)
       csv_reader = CSV::Parser.new(file)

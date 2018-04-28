@@ -1,6 +1,7 @@
 # csv_processor
 
-Allows manipulation of CSV files based on header value
+Allows manipulation of CSV files based on the columns header
+Header == Column Name
 
 ## Installation
 
@@ -59,6 +60,12 @@ h = csv.headers
 csv.records.each do |row|
   row[h["job"]] = "developer"
 end
+
+```
+
+##### Deleting a header
+```crystal
+csv.delete_header("age")
 
 ```
 
