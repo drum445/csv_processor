@@ -13,8 +13,7 @@ module CSVProcessor
     end
 
     def load_headers
-      # load the headers into our hash, it will look like:
-      # ["name" => 1] name being the header, 1 being the index
+      # load the headers into our array
       file = File.read(@file_name)
       csv_reader = CSV::Parser.new(file)
 
