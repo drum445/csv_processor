@@ -41,7 +41,7 @@ csv.records.each do |row|
 end
 ```
 
-##### Renaming a column header (does not preserve order)
+##### Renaming a column header
 ```crystal
 csv.rename_column("age", "years")
 ```

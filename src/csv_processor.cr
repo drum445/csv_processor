@@ -27,10 +27,12 @@ module CSVProcessor
     end
 
     def rename_column(old : String, header : String)
-      # remove the old header from our headers array
-      # then add our new header
-      @headers.delete(old)
-      @headers.push(header)
+      # find the old header and rename it
+      @headers.each_with_index do |h, i|
+        if h == old
+          @headers[i] = header
+        end
+      end
 
       # for each row add a new header with the old header's value
       # then delete the old kvp
@@ -83,9 +85,15 @@ module CSVProcessor
         # build the headers first, which is just our headers array
         csv.row @headers
 
-        # loop through the records and add each one to the builder
+        # loop through each row of our records
+        # then for each of our headers add the row value to array
+        # then write it to file
         @records.each do |row|
-          csv.row row.values
+          row_array = Array(String).new
+          @headers.each do |header|
+            row_array.push(row[header])
+          end
+          csv.row row_array
         end
       end
 
