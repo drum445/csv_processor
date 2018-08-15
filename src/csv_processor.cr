@@ -70,7 +70,12 @@ module CSVProcessor
 
       # for each row we want a hash that looks like {header => value}
       # once created push it to the records array
+      # check that the row is complete, otherwise we will get an indexing error
       csv_reader.each_row do |row|
+        if row.size != @headers.size
+          next
+        end
+
         row_hash = Hash(String, String).new
         row.each_with_index do |value, index|
           row_hash[@headers[index]] = value
